@@ -1,12 +1,24 @@
 ﻿@{
-    ViewData["Title"] = "Home sfsfsafsafsfPage";
+    ViewData["Title"] = "Home Page";
 }
 
+@model List<Book>
+
+
+<p>@ViewBag.TitlePage</p>
+
+
 <div class="text-center">
-    <h1>@ViewData["Title"]</h1>
+    
     <h1 class="display-4">Welcome</h1>
     <p>list of books</p>
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
 
+<ul>
+    @foreach (var book in Model)
+    {
+        <partial name="_BookCard" model="book" />
 
+    }
+</ul>

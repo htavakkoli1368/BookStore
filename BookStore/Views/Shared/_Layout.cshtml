@@ -26,6 +26,9 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Books" asp-action="Index">Books</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -37,8 +40,8 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <p>@ViewData["Title"]</p>
+    <footer class="border-top footer text-muted">    
+        <p>this is mytitle-@ViewBag.TitlePage</p>
         <div class="container">
             &copy; 2026 - BookStore - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>

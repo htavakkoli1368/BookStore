@@ -1,0 +1,19 @@
+﻿@using BookStore.ViewModel
+@model CreateBookViewModel
+<p>add this</p>
+<form asp-action="CreateForm" method="post">
+    <div>
+        <label asp-for="Title"></label>
+        <input asp-for="Title" />
+    </div>
+    <div>
+        <label asp-for="Author">
+        </label> <input asp-for="Author" />
+    </div>
+    <div>
+        <label asp-for="Price"></label>
+        <input asp-for="Price" />
+    </div>
+
+    <button type="submit">Create</button>
+</form>

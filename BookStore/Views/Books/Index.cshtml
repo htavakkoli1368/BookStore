@@ -1,9 +1,12 @@
-﻿@model List<string> 
-<p>index.cshtml</p>
+﻿@model List<Book> 
+
+
+<p>@ViewBag.TitlePage</p>
 
 <ul>
     @foreach (var book in Model)
     {
-        <li>@book</li>
+        <partial name="_BookCard" model="book"/>
+     
     }
 </ul>
