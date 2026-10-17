@@ -1,8 +1,4 @@
-﻿@model List<Book> 
-
-
-<p>@ViewBag.TitlePage</p>
- 
+﻿@model List<Book>
 
 @{
     ViewData["Title"] = "Books";
@@ -78,11 +74,3 @@
         </div>
     </div>
 </div>
-
-<ul>
-    @foreach (var book in Model)
-    {
-        <partial name="_BookCard" model="book"/>
-     
-    }
-</ul>
