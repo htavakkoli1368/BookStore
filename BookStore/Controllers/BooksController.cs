@@ -31,6 +31,11 @@ namespace BookStore.Controllers
         [HttpPost]
         public IActionResult CreateForm(CreateBookViewModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return View("Create");
+            }
+          
             var books = new Book
             {
                 Title = model.Title,
@@ -40,6 +45,8 @@ namespace BookStore.Controllers
              //save the model into Database
              _context.Books.Add(books);
             _context.SaveChanges();
+            
+            TempData["SuccessMessage"] = "Book created successfully!";
             return RedirectToAction("Index");
         }
         public IActionResult Details(int id)
