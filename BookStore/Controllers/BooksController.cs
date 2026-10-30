@@ -2,6 +2,7 @@
 using BookStore.Models;
 using BookStore.ViewModel;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Primitives;
 using System.Reflection;
 
 namespace BookStore.Controllers
@@ -16,12 +17,39 @@ namespace BookStore.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string? searchTerm,string? author,int page=1)
         {
-            //ViewData["TitlePage"] = "Books";
-            ViewBag.TitlePage = "Books";
-            var books = _context.Books.ToList();
-            return View(books);     
+            int pageSize = 5;   
+            var query = _context.Books.AsQueryable();
+            if (!string.IsNullOrWhiteSpace(searchTerm)) 
+            { 
+                query = query.Where(b => b.Title.Contains(searchTerm) || b.Author.Contains(searchTerm));
+            }
+            if (!string.IsNullOrWhiteSpace(author))
+            {
+                query = query.Where(b =>b.Author == author);
+            }
+            var authors =_context.Books.Select(b => b.Author)
+                .Distinct()
+                 .OrderBy(a => a)
+                .ToList();
+            int totalCount = query.Count();
+            int totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+            page = Math.Clamp(page, 1, totalPages);
+            var books = query
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+            var viewModel = new BooksIndexViewModel
+            {
+                Books = books,
+                SearchItem = searchTerm,
+                SelectedAuthor = author,
+                Authors = authors,
+                CurrentPage = page,
+                TotalPages = totalPages
+            };
+            return View(viewModel);     
         }      
         
         public IActionResult Create()
