@@ -50,6 +50,19 @@ namespace BookStore.Controllers
 
             if (result.Succeeded)
             {
+                var roleResult = await _userManager.AddToRoleAsync(
+                    user,
+                    "User");
+                if(!roleResult.Succeeded)
+                {
+                    foreach (var error in roleResult.Errors)
+                    {
+                        ModelState.AddModelError(
+                            string.Empty,
+                            error.Description);
+                    }
+                    return View(model);
+                }
                 await _signInManager.SignInAsync(
                     user,
                     isPersistent: false);

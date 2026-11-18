@@ -19,6 +19,12 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 .AddEntityFrameworkStores<ApplicationDbContext>();
 
 var app = builder.Build();
+using(var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var configuration = services.GetRequiredService<IConfiguration>();
+    await IdentitySeeder.SeedAsync(services, configuration);
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

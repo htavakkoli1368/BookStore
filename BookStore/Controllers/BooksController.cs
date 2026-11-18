@@ -1,6 +1,7 @@
 ﻿using BookStore.Data;
 using BookStore.Models;
 using BookStore.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
 using System.Reflection;
@@ -50,13 +51,15 @@ namespace BookStore.Controllers
                 TotalPages = totalPages
             };
             return View(viewModel);     
-        }      
-        
+        }
+
+        [Authorize(Roles = "Admin,Manager")]
         public IActionResult Create()
         {
             return View();
         }
         [HttpPost]
+        [Authorize(Roles = "Admin,Manager")]
         public IActionResult CreateForm(CreateBookViewModel model)
         {
             if (!ModelState.IsValid)
@@ -81,7 +84,9 @@ namespace BookStore.Controllers
         {
             return Content($"this is id : {id}");
         }
+       
         [HttpGet]
+        [Authorize(Roles = "Admin,Manager")]
         public IActionResult Edit(int id)
         {
             var book = _context.Books.Find(id);
@@ -95,6 +100,7 @@ namespace BookStore.Controllers
         }
         //browser->routing->controller->action->view->html->browser
         [HttpPost]
+        [Authorize(Roles = "Admin,Manager")]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(Book book)
         {
@@ -112,6 +118,7 @@ namespace BookStore.Controllers
         }
         // GET: Books/Delete/5
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(int id)
         {
             var book = _context.Books.Find(id);
@@ -126,6 +133,7 @@ namespace BookStore.Controllers
 
         // POST: Books/Delete/5
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {

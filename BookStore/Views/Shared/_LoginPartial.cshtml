@@ -3,7 +3,18 @@
     <span class="navbar-text me-3">
         Hello, @User.Identity.Name
     </span>
-
+    @if (User.IsInRole("Admin"))
+    {
+        <span class="badge bg-danger me-2">Admin</span>
+    }
+    else if (User.IsInRole("Manager"))
+    {
+        <span class="badge bg-warning text-dark me-2">Manager</span>
+    }
+    else
+    {
+        <span class="badge bg-secondary me-2">User</span>
+    }
     <form asp-controller="Account"
           asp-action="Logout"
           method="post"

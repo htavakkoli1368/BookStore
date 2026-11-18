@@ -7,9 +7,13 @@
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h2>Books</h2>
-    <a asp-action="Create" class="btn btn-primary">
-        Add New Book
-    </a>
+    @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+    {
+        <a asp-action="Create" class="btn btn-success">
+            Create New Book
+        </a>
+    }
+
 </div>
 
 @if (TempData["SuccessMessage"] != null)
@@ -76,17 +80,22 @@
                         <td>@book.Author</td>
                         <td>@book.Price</td>
                         <td>
+        @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+        {
                             <a asp-action="Edit"
                                asp-route-id="@book.Id"
                                class="btn btn-sm btn-warning">
                                 Edit
                             </a>
-
+        }
+        @if (User.IsInRole("Admin"))
+        {
                             <a asp-action="Delete"
                                asp-route-id="@book.Id"
                                class="btn btn-sm btn-danger">
                                 Delete
                             </a>
+        }
                         </td>
                     </tr>
                 }
